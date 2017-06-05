@@ -1,15 +1,14 @@
 package pe.com.positive.entity;
 
-import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Track {
@@ -27,12 +26,13 @@ public class Track {
 	@Column(name = "track_number")
 	private long trackNumber;
 
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "id_album")
 	private Album album;
 	
-	@ManyToMany(mappedBy = "tracks")
-	private Set<Artista> artists;
+//	@ManyToMany(mappedBy = "tracks")
+//	private Set<Artista> artists;
 
 	public long getId() {
 		return id;
@@ -72,14 +72,6 @@ public class Track {
 
 	public void setAlbum(Album album) {
 		this.album = album;
-	}
-
-	public Set<Artista> getArtists() {
-		return artists;
-	}
-
-	public void setArtists(Set<Artista> artists) {
-		this.artists = artists;
 	}
 
 }
