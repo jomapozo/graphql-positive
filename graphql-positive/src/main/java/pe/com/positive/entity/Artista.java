@@ -12,14 +12,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 
 @Entity
 public class Artista {
 
 	@Id
-	@SequenceGenerator(name = "generator", sequenceName = "artista_id_seq", allocationSize = 1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "generator")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
 	@Column(name = "name")

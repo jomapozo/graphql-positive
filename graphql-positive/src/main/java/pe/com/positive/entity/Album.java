@@ -11,14 +11,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 
 @Entity
 public class Album {
 
 	@Id
-	@SequenceGenerator(name = "generator", sequenceName = "album_id_seq", allocationSize = 1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "generator")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
 	@Column(name = "name")
@@ -27,8 +25,8 @@ public class Album {
 	@Column(name = "image_url")
 	private String imageUrl;
 
-	@ManyToOne
-	@JoinColumn(name = "id_artista")
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_artista", nullable = false)
 	private Artista artist;
 	
 	@OneToMany(mappedBy = "album", cascade = CascadeType.ALL)

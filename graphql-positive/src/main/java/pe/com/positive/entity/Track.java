@@ -10,14 +10,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 
 @Entity
 public class Track {
 
 	@Id
-	@SequenceGenerator(name = "generator", sequenceName = "track_id_seq", allocationSize = 1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "generator")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
 	@Column(name = "name")
@@ -33,7 +31,7 @@ public class Track {
 	@JoinColumn(name = "id_album")
 	private Album album;
 	
-	@ManyToMany(mappedBy = "Track")
+	@ManyToMany(mappedBy = "tracks")
 	private Set<Artista> artists;
 
 	public long getId() {
@@ -74,6 +72,14 @@ public class Track {
 
 	public void setAlbum(Album album) {
 		this.album = album;
+	}
+
+	public Set<Artista> getArtists() {
+		return artists;
+	}
+
+	public void setArtists(Set<Artista> artists) {
+		this.artists = artists;
 	}
 
 }
