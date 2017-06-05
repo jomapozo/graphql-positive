@@ -46,18 +46,21 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- BD dependecies 
+		<!-- BD dependecies <dependency> <groupId>org.postgresql</groupId> <artifactId>postgresql</artifactId> 
+			</dependency> -->
+
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-		</dependency>-->
-		
-		 <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>9.4-1200-jdbc41</version>
-        </dependency>
-        
+			<version>9.4-1200-jdbc41</version>
+		</dependency>
+
+		<!-- Graphql -->
+		<dependency>
+			<groupId>com.graphql-java</groupId>
+			<artifactId>graphql-java</artifactId>
+			<version>3.0.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>

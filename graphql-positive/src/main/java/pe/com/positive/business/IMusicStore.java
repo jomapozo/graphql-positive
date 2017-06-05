@@ -7,6 +7,7 @@ import pe.com.positive.pojo.Response;
  * @author Jonatan
  *
  */
+@FunctionalInterface
 public interface IMusicStore {
 	/**
 	 * 
@@ -15,9 +16,4 @@ public interface IMusicStore {
 	 */
 	Response getArtistById(Long id);
 
-	/**
-	 * 
-	 * @throws Exception
-	 */
-	void addArtistStore() throws Exception;
 }

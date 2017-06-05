@@ -30,17 +30,4 @@ public class QueryGraphController {
 		return response;
 	}
 	
-	@RequestMapping(value = { "graphql/add" })
-	public Response addArtist() {
-
-		Response response = null;
-
-		try {
-			iMusicStore.addArtistStore();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return response;
-	}
 }

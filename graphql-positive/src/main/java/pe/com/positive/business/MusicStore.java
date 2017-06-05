@@ -29,7 +29,6 @@ public class MusicStore implements IMusicStore {
 
 	}
 
-	@Override
 	public void addArtistStore() throws Exception {
 
 		//this.addMockLedZepellin();
@@ -160,6 +159,7 @@ public class MusicStore implements IMusicStore {
 		artistaRepo.save(artista);
 	}
 	
+	@SuppressWarnings("unused")
 	private void addMockMichaelJackson() {
 		Artista artista = new Artista();
 		artista.setName("Michael Jackson");
