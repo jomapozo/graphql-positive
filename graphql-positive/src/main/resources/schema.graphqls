@@ -1,0 +1,16 @@
+Artist {
+name: String
+image_url: String
+albums: [Album]
+}
+Album {
+name: String
+image_url: String
+tracks: [Track]
+}
+Track{
+name: String
+preview_url: String
+artists: [Artist]
+track_number: Int
+}
