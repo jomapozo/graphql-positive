@@ -1,6 +1,7 @@
 package pe.com.positive.business;
 
 import java.util.LinkedHashSet;
+import java.util.Random;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +30,13 @@ public class MusicStore implements IMusicStore {
 
 	}
 
-	public void addArtistStore() throws Exception {
-
-		//this.addMockLedZepellin();
-		//this.addMockMichaelJackson();
+	public Response addArtistStore() {
+		
+		Response response = new Response(new Random().nextLong(), "addArtistStore");
+		this.addMockLedZepellin();
+		this.addMockMichaelJackson();
+		
+		return response;
 	}
 	
 	@SuppressWarnings("unused")

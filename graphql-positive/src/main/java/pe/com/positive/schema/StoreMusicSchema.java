@@ -3,6 +3,7 @@ package pe.com.positive.schema;
 import graphql.GraphQL;
 import graphql.schema.GraphQLObjectType;
 import graphql.schema.GraphQLSchema;
+import graphql.schema.idl.RuntimeWiring;
 import graphql.schema.idl.SchemaGenerator;
 import graphql.schema.idl.SchemaParser;
 import graphql.schema.idl.TypeDefinitionRegistry;
@@ -15,6 +16,7 @@ import static graphql.schema.GraphQLFieldDefinition.newFieldDefinition;
 import static graphql.schema.GraphQLObjectType.newObject;
 
 import java.io.File;
+import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -40,21 +42,24 @@ public class StoreMusicSchema {
 
 	}
 
-	public GraphQLSchema getSchemaMusicStore() {
+	
+	public GraphQLSchema getSchemaMusicStore() throws URISyntaxException {
 		SchemaParser schemaParser = new SchemaParser();
 		SchemaGenerator schemaGenerator = new SchemaGenerator();
-		File schemaFile = loadSchema();
+		File schemaFile = this.loadSchema();
 		TypeDefinitionRegistry typeRegistry = schemaParser.parse(schemaFile);
-		GraphQLSchema graphQlSchema =  schemaGenerator.makeExecutableSchema(typeRegistry, null); // TODO: create wiring
+		GraphQLSchema graphQlSchema =  schemaGenerator.makeExecutableSchema(typeRegistry, RuntimeWiring.newRuntimeWiring().build()); // TODO: create wiring
 		return graphQlSchema;
 	}
 
 	/**
 	 * get schema
 	 * @return
+	 * @throws URISyntaxException 
 	 */
-	private File loadSchema() {
-		Path path = Paths.get(Constant.SCHEMA_FILE);
+	private File loadSchema() throws URISyntaxException {
+		Path path = Paths.get(ClassLoader.getSystemResource(Constant.SCHEMA_FILE).toURI());
+		//Path path = Paths.get(Constant.SCHEMA_FILE);
 		File localFile = path.toFile();
 		return localFile.exists() == Boolean.TRUE  ? localFile : null; 
 	}

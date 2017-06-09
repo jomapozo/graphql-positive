@@ -1,16 +1,21 @@
-Artist {
-name: String
-image_url: String
-albums: [Album]
+type Query {
+	artist : Character
+} 
+
+type Character {
+	name : String
+	image_url : String 
+	album : [Album]
 }
-Album {
-name: String
-image_url: String
-tracks: [Track]
+
+type Album {
+	name : String
+	image_url : String
+	track : [Track]
 }
-Track{
-name: String
-preview_url: String
-artists: [Artist]
-track_number: Int
+
+type Track {
+	name : String
+	preview_url : String
+	track_number : Int
 }

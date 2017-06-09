@@ -5,7 +5,7 @@ public class Response {
 	private Long id;
 	private String content;
 	private Object obj;
-
+	
 	public Response(Long id, String content) {
 		this.id = id;
 		this.content = content;

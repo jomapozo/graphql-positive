@@ -1,5 +1,6 @@
 package pe.com.positive.controller;
 
+import java.net.URISyntaxException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import graphql.ExecutionResult;
+import graphql.GraphQL;
 import pe.com.positive.business.IMusicStore;
 import pe.com.positive.pojo.Response;
 import pe.com.positive.schema.StoreMusicSchema;
@@ -28,7 +30,6 @@ public class QueryGraphController {
 
 	@RequestMapping(value = { "graphql/query" })
 	public Response initRest(@RequestParam(name = "id", defaultValue = "1") Long id) {
-
 		Response response = null;
 
 		try {
@@ -36,23 +37,41 @@ public class QueryGraphController {
 		} catch (Exception e) {
 			response.setContent(e.getMessage());
 		}
-
+		
 		return response;
 	}
 
-	@RequestMapping(value = "/graphql", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping (value = {"graphql/add"})
+	public Response addArtista () {
+		
+		Response response = null;
+		
+		try {
+		response = iMusicStore.addArtistStore();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return response;
+	}
+	
+	@RequestMapping(value = "/graphql/init", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public Object executeOperation(@RequestBody Map body) {
+	public Object executeOperation(@RequestBody Map body) throws URISyntaxException {
 		String query = (String) body.get("query");
 		Map<String, Object> variables = (Map<String, Object>) body.get("variables");
 		if (variables == null) {
 			variables = new LinkedHashMap<>();
 		}
-		ExecutionResult executionResult = storeMusicSchema.getInstance().execute(query, (Object) null, variables);
+		GraphQL graphql = new GraphQL(storeMusicSchema.getSchemaMusicStore());
+		ExecutionResult executionResult = graphql.execute(query, (Object) null, variables);
+
 		Map<String, Object> result = new LinkedHashMap<>();
 		if (executionResult.getErrors().size() > 0) {
 			result.put("errors", executionResult.getErrors());
-			// log.error("Errors: {}", executionResult.getErrors());
+			System.out.println("Errors_: {}" + executionResult.getErrors());
 		}
 		result.put("data", executionResult.getData());
 		return result;
