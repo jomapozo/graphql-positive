@@ -3,11 +3,13 @@ package pe.com.positive.schema;
 import graphql.GraphQL;
 import graphql.schema.GraphQLObjectType;
 import graphql.schema.GraphQLSchema;
+import graphql.schema.StaticDataFetcher;
 import graphql.schema.idl.RuntimeWiring;
 import graphql.schema.idl.SchemaGenerator;
 import graphql.schema.idl.SchemaParser;
 import graphql.schema.idl.TypeDefinitionRegistry;
 import pe.com.positive.business.IMusicStore;
+import pe.com.positive.entity.Artista;
 import pe.com.positive.pojo.Response;
 import pe.com.positive.util.Constant;
 
@@ -48,12 +50,29 @@ public class StoreMusicSchema {
 		SchemaGenerator schemaGenerator = new SchemaGenerator();
 		File schemaFile = this.loadSchema();
 		TypeDefinitionRegistry typeRegistry = schemaParser.parse(schemaFile);
-		GraphQLSchema graphQlSchema =  schemaGenerator.makeExecutableSchema(typeRegistry, RuntimeWiring.newRuntimeWiring().build()); // TODO: create wiring
+		GraphQLSchema graphQlSchema =  schemaGenerator.makeExecutableSchema(typeRegistry, this.buildWiring()); // TODO: create wiring
 		return graphQlSchema;
 	}
 
+	
 	/**
-	 * get schema
+	 * 
+	 * @return
+	 */
+	private RuntimeWiring buildWiring () {
+		Response response = iMusicStore.getArtistById(2L);
+		
+		return RuntimeWiring.newRuntimeWiring()
+				.type("QueryType",typeWiring -> typeWiring
+						.dataFetcher("artist", (Artista)response.getObj()))
+				.type("Album", typeWiring -> typeWiring
+						.dataFetcher("name", new StaticDataFetcher("hbye"))
+						.dataFetcher("image_url", new StaticDataFetcher("3")))
+				.build();									
+	}
+	
+	/**
+	 * get schema	
 	 * @return
 	 * @throws URISyntaxException 
 	 */

@@ -10,8 +10,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import graphql.schema.DataFetcher;
+import graphql.schema.DataFetchingEnvironment;
+
 @Entity
-public class Artista {
+public class Artista implements DataFetcher<Artista> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -65,6 +68,11 @@ public class Artista {
 	@Override
 	public String toString() {
 		return "Artista [id=" + id + ", name=" + name + ", imageUrl=" + imageUrl + ", albums=" + albums + "]";
+	}
+
+	@Override
+	public Artista get(DataFetchingEnvironment environment) {
+		return this;
 	}
 
 }
