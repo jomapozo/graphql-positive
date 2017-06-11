@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 import graphql.ExecutionResult;
 import graphql.GraphQL;
@@ -22,7 +21,6 @@ import graphql.GraphQL.Builder;
 import pe.com.positive.business.IMusicStore;
 import pe.com.positive.pojo.Response;
 import pe.com.positive.schema.StoreMusicSchema;
-import pe.com.positive.util.PositiveUtil;
 
 @RestController
 public class QueryGraphController {

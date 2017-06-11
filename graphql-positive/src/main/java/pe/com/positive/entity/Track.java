@@ -1,11 +1,14 @@
 package pe.com.positive.entity;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -31,8 +34,8 @@ public class Track {
 	@JoinColumn(name = "id_album")
 	private Album album;
 	
-//	@ManyToMany(mappedBy = "tracks")
-//	private Set<Artista> artists;
+	@ManyToMany(mappedBy = "tracks")
+	private Set<Artista> artists;
 
 	public long getId() {
 		return id;

@@ -1,9 +1,5 @@
 package pe.com.positive.schema;
 
-import static graphql.Scalars.GraphQLString;
-import static graphql.schema.GraphQLFieldDefinition.newFieldDefinition;
-import static graphql.schema.GraphQLObjectType.newObject;
-
 import java.io.File;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
@@ -12,9 +8,7 @@ import java.nio.file.Paths;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import graphql.GraphQL;
 import graphql.schema.DataFetcher;
-import graphql.schema.GraphQLObjectType;
 import graphql.schema.GraphQLSchema;
 import graphql.schema.StaticDataFetcher;
 import graphql.schema.idl.RuntimeWiring;
@@ -32,20 +26,7 @@ public class StoreMusicSchema {
 
 	@Autowired
 	private IMusicStore iMusicStore;
-
-	public GraphQL getInstance() {
-
-		Response response = iMusicStore.getArtistById(2L);
-
-		GraphQLObjectType queryType = newObject().name("queryArtist")
-				.field(newFieldDefinition().type(GraphQLString).name("id").staticValue(response)).build();
-
-		GraphQLSchema schema = GraphQLSchema.newSchema().query(queryType).build();
-
-		return GraphQL.newGraphQL(schema).build();
-
-	}
-
+	
 	
 	public GraphQLSchema getSchemaMusicStore() throws URISyntaxException {
 		SchemaParser schemaParser = new SchemaParser();
@@ -72,10 +53,7 @@ public class StoreMusicSchema {
 		return RuntimeWiring.newRuntimeWiring()
 				.type("QueryType",typeWiring -> typeWiring
 						.dataFetcher("artist", artistDataFetcher ))
-				.type("Album", typeWiring -> typeWiring
-						.dataFetcher("name", new StaticDataFetcher("hbye"))
-						.dataFetcher("image_url", new StaticDataFetcher("3")))
-				.type(TypeRuntimeWiring.newTypeWiring("Character").build())
+				.type(TypeRuntimeWiring.newTypeWiring("Artista").build())
 				.build();									
 	}
 	

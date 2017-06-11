@@ -8,6 +8,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import graphql.schema.DataFetcher;
@@ -29,9 +32,9 @@ public class Artista implements DataFetcher<Artista>{
 	@OneToMany(mappedBy = "artist", cascade = CascadeType.ALL)
 	private Set<Album> albums;
 	
-//	@ManyToMany(cascade = CascadeType.ALL)
-//	@JoinTable(name = "ArtistaTrack", joinColumns = @JoinColumn(name = "id_track", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "id_artista", referencedColumnName = "id"))
-//	private Set<Track> tracks;
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "ArtistaTrack", joinColumns = @JoinColumn(name = "id_track", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "id_artista", referencedColumnName = "id"))
+	private Set<Track> tracks;
 	
 	public long getId() {
 		return id;
