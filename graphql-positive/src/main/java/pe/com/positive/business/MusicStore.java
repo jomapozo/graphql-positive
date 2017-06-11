@@ -23,13 +23,28 @@ public class MusicStore implements IMusicStore {
 	public Response getArtistById(Long id) {
 
 		Artista artist=  artistaRepo.findOne(id);
-		
 		Response response = new Response(id, "getArtistById");
 		response.setObj(artist);
 		return response;
 
 	}
+	
+	@Override
+	public Response  getAllArtist() {
+		Iterable<Artista> artists = artistaRepo.findAll();
+		Response response = new Response (0L, "getArtists");
+		response.setObj(artists);
+		return response;
+	}
 
+	@Override
+	public Response getArtistByName(String name) {
+		Artista artist = artistaRepo.getArtistByName(name);
+		Response response = new Response(new Random().nextLong(), "getArtistByName");
+		response.setObj(artist);
+		return response;
+	}
+	
 	public Response addArtistStore() {
 		
 		Response response = new Response(new Random().nextLong(), "addArtistStore");
@@ -286,4 +301,5 @@ public class MusicStore implements IMusicStore {
 
 		artistaRepo.save(artista);
 	}
+
 }

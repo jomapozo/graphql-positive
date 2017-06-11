@@ -14,7 +14,7 @@ import graphql.schema.DataFetcher;
 import graphql.schema.DataFetchingEnvironment;
 
 @Entity
-public class Artista implements DataFetcher<Artista> {
+public class Artista implements DataFetcher<Artista>{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

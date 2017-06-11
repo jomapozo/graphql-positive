@@ -13,11 +13,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
 import graphql.ExecutionResult;
 import graphql.GraphQL;
+import graphql.GraphQL.Builder;
 import pe.com.positive.business.IMusicStore;
 import pe.com.positive.pojo.Response;
 import pe.com.positive.schema.StoreMusicSchema;
+import pe.com.positive.util.PositiveUtil;
 
 @RestController
 public class QueryGraphController {
@@ -57,16 +62,23 @@ public class QueryGraphController {
 		return response;
 	}
 	
-	@RequestMapping(value = "/graphql/init", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/graphql/init", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public Object executeOperation(@RequestBody Map body) throws URISyntaxException {
 		String query = (String) body.get("query");
-		Map<String, Object> variables = (Map<String, Object>) body.get("variables");
-		if (variables == null) {
-			variables = new LinkedHashMap<>();
+		Map<String, Object> variables = new LinkedHashMap<>();
+		
+		try {
+			Gson gson = new Gson();
+			variables = (Map<String,Object>)gson.fromJson((String)body.get("variables"), variables.getClass());
+		} catch (ClassCastException e) {
+			//TODO: ignore error
 		}
-		GraphQL graphql = new GraphQL(storeMusicSchema.getSchemaMusicStore());
-		ExecutionResult executionResult = graphql.execute(query, (Object) null, variables);
+
+		Builder graphql = GraphQL.newGraphQL(storeMusicSchema.getSchemaMusicStore());
+		
+		ExecutionResult executionResult = graphql.build().execute(query, (Object) null, variables);
 
 		Map<String, Object> result = new LinkedHashMap<>();
 		if (executionResult.getErrors().size() > 0) {

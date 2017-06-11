@@ -16,6 +16,10 @@ public interface IMusicStore {
 	 */
 	Response getArtistById(Long id);
 	
+	Response getAllArtist ();
+	
 	Response addArtistStore ();
+	
+	Response getArtistByName(String name);
 
 }

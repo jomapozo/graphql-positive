@@ -1,18 +1,5 @@
 package pe.com.positive.schema;
 
-import graphql.GraphQL;
-import graphql.schema.GraphQLObjectType;
-import graphql.schema.GraphQLSchema;
-import graphql.schema.StaticDataFetcher;
-import graphql.schema.idl.RuntimeWiring;
-import graphql.schema.idl.SchemaGenerator;
-import graphql.schema.idl.SchemaParser;
-import graphql.schema.idl.TypeDefinitionRegistry;
-import pe.com.positive.business.IMusicStore;
-import pe.com.positive.entity.Artista;
-import pe.com.positive.pojo.Response;
-import pe.com.positive.util.Constant;
-
 import static graphql.Scalars.GraphQLString;
 import static graphql.schema.GraphQLFieldDefinition.newFieldDefinition;
 import static graphql.schema.GraphQLObjectType.newObject;
@@ -24,6 +11,21 @@ import java.nio.file.Paths;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import graphql.GraphQL;
+import graphql.schema.DataFetcher;
+import graphql.schema.GraphQLObjectType;
+import graphql.schema.GraphQLSchema;
+import graphql.schema.StaticDataFetcher;
+import graphql.schema.idl.RuntimeWiring;
+import graphql.schema.idl.SchemaGenerator;
+import graphql.schema.idl.SchemaParser;
+import graphql.schema.idl.TypeDefinitionRegistry;
+import graphql.schema.idl.TypeRuntimeWiring;
+import pe.com.positive.business.IMusicStore;
+import pe.com.positive.entity.Artista;
+import pe.com.positive.pojo.Response;
+import pe.com.positive.util.Constant;
 
 @Component
 public class StoreMusicSchema {
@@ -54,22 +56,29 @@ public class StoreMusicSchema {
 		return graphQlSchema;
 	}
 
+	DataFetcher<Artista> artistDataFetcher = environment -> {
+        // environment.getSource() is the value of the surrounding
+        // object. In this case described by objectType
+        Response value = iMusicStore.getArtistByName(environment.getArgument("name")); // Perhaps getting from a DB or whatever
+        return (Artista)value.getObj();
+	};
 	
 	/**
 	 * 
 	 * @return
 	 */
 	private RuntimeWiring buildWiring () {
-		Response response = iMusicStore.getArtistById(2L);
 		
 		return RuntimeWiring.newRuntimeWiring()
 				.type("QueryType",typeWiring -> typeWiring
-						.dataFetcher("artist", (Artista)response.getObj()))
+						.dataFetcher("artist", artistDataFetcher ))
 				.type("Album", typeWiring -> typeWiring
 						.dataFetcher("name", new StaticDataFetcher("hbye"))
 						.dataFetcher("image_url", new StaticDataFetcher("3")))
+				.type(TypeRuntimeWiring.newTypeWiring("Character").build())
 				.build();									
 	}
+	
 	
 	/**
 	 * get schema	

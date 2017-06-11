@@ -3,18 +3,20 @@ schema {
 }
 
 type QueryType {
-	artist : Character
+	artist (name : String) : Character
+	album : Album
+	track : Track
 } 
 
 type Character {
+	id   : Long
 	name : String
-	image_url : String 
-	album : [Album]
+	imageUrl : String
 }
 
 type Album {
 	name : String
-	image_url : String
+	imageUrl : String
 	track : [Track]
 }
 
