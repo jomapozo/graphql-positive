@@ -8,3 +8,9 @@ http://graphql-java.readthedocs.io/en/latest/getting_started.html
   "query": "{ artist (name : \"Led Zeppelin\") { id name imageUrl} }",
   "variables": {}
 }
+
+
+{
+  "query": "{ artist (name : \"Led Zeppelin\")  { id name albums { name imageUrl tracks { name previewUrl trackNumber artist { name }} } } }",
+  "variables": {}
+}

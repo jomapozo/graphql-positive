@@ -13,6 +13,11 @@ import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+/**
+ * 
+ * @author Jonatan
+ *
+ */
 @Entity
 public class Track {
 
@@ -33,7 +38,8 @@ public class Track {
 	@ManyToOne
 	@JoinColumn(name = "id_album")
 	private Album album;
-	
+
+	@JsonIgnore
 	@ManyToMany(mappedBy = "tracks")
 	private Set<Artista> artists;
 
@@ -75,6 +81,14 @@ public class Track {
 
 	public void setAlbum(Album album) {
 		this.album = album;
+	}
+
+	public Set<Artista> getArtists() {
+		return artists;
+	}
+
+	public void setArtists(Set<Artista> artists) {
+		this.artists = artists;
 	}
 
 }

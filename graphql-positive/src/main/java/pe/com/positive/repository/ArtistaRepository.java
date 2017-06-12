@@ -10,6 +10,5 @@ import pe.com.positive.entity.Artista;
 @Repository
 public interface ArtistaRepository extends CrudRepository<Artista, Serializable> {
 
-	
 	Artista getArtistByName(String name);
 }

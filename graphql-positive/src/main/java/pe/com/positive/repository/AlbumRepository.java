@@ -1,5 +1,6 @@
 package pe.com.positive.repository;
 
+
 import java.io.Serializable;
 
 import org.springframework.data.repository.CrudRepository;

@@ -14,6 +14,11 @@ import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+/**
+ * 
+ * @author Jonatan
+ *
+ */
 @Entity
 public class Album {
 

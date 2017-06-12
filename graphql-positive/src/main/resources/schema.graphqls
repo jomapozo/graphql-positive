@@ -23,5 +23,5 @@ type Track {
 	name : String
 	previewUrl : String
 	trackNumber : Int
-	artist : [Artista]
+	artists : [Artista]
 }

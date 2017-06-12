@@ -13,11 +13,18 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import graphql.schema.DataFetcher;
 import graphql.schema.DataFetchingEnvironment;
 
+/**
+ * 
+ * @author Jonatan
+ *
+ */
 @Entity
-public class Artista implements DataFetcher<Artista>{
+public class Artista implements DataFetcher<Artista> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,11 +38,12 @@ public class Artista implements DataFetcher<Artista>{
 
 	@OneToMany(mappedBy = "artist", cascade = CascadeType.ALL)
 	private Set<Album> albums;
-	
+
+	@JsonIgnore
 	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "ArtistaTrack", joinColumns = @JoinColumn(name = "id_track", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "id_artista", referencedColumnName = "id"))
+	@JoinTable(name = "artista_track", joinColumns = @JoinColumn(name = "id_artista", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "id_track", referencedColumnName = "id"))
 	private Set<Track> tracks;
-	
+
 	public long getId() {
 		return id;
 	}
@@ -66,6 +74,14 @@ public class Artista implements DataFetcher<Artista>{
 
 	public void setAlbums(Set<Album> albums) {
 		this.albums = albums;
+	}
+
+	public Set<Track> getTracks() {
+		return tracks;
+	}
+
+	public void setTracks(Set<Track> tracks) {
+		this.tracks = tracks;
 	}
 
 	@Override
